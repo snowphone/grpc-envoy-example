@@ -18,5 +18,7 @@ python3 client.py
 
 ## TODO
 
-* Transcode gRPC to REST
-* CI/CD
+- [ ] Transcode gRPC to REST
+- [ ] CI/CD
+- [ ] Unit test
+- [ ] ORM
