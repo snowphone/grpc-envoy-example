@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package storage;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+service Storage {
+	rpc put(Pair) returns (google.protobuf.StringValue);
+	rpc get(google.protobuf.StringValue) returns (Pair);
+}
+
+message Pair {
+	string key = 1;
+	string value = 2;
+}
+
