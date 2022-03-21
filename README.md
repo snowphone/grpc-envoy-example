@@ -16,6 +16,11 @@ python3 server.py &
 python3 client.py
 ```
 
+### Clone submodule
+```
+git submodule update --init
+```
+
 ## TODO
 
 - [ ] Transcode gRPC to REST
