@@ -10,7 +10,7 @@ services:
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
       - ./proto/storage.desc:/etc/envoy/storage.desc:ro
-  server:
+  storage_server:
     image: python:3.10
     restart: unless-stopped
     volumes:
@@ -21,6 +21,4 @@ services:
       - "/bin/sh"
       - "-c"
       - "python3 -m pip install -r $HOME/requirements.txt && python3 $HOME/server.py"
-    ports: 
-      - 50051:50051
 

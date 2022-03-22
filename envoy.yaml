@@ -26,6 +26,7 @@ static_resources:
               - match: {prefix: "/storage.Storage"}
                 route: {cluster: grpc, timeout: 60s}
           http_filters:
+
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
@@ -60,5 +61,7 @@ static_resources:
                 # WARNING: "docker.for.mac.localhost" has been deprecated from Docker v18.03.0.
                 # If you're running an older version of Docker, please use "docker.for.mac.localhost" instead.
                 # Reference: https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18030-ce-mac59-2018-03-26
-                address: host.docker.internal
+                #address: host.docker.internal
+                # Address name must be same to docker container name to establish inter-container communication
+                address: storage_server
                 port_value: 50051
