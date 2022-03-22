@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  proxy:
+    image: envoyproxy/envoy:v1.21-latest
+    restart: unless-stopped
+    ports: 
+      - 80:8081
+      - 9901:9901
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+      - ./proto/storage.desc:/etc/envoy/storage.desc:ro
+  server:
+    image: python:3.10
+    restart: unless-stopped
+    volumes:
+      - ./server.py:$HOME/server.py:ro
+      - ./proto:$HOME/proto
+      - ./requirements.txt:$HOME/requirements.txt:ro
+    command: 
+      - "/bin/sh"
+      - "-c"
+      - "python3 -m pip install -r $HOME/requirements.txt && python3 $HOME/server.py"
+    ports: 
+      - 50051:50051
+

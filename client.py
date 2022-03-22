@@ -17,10 +17,12 @@ def main():
 			try:
 				job, tail = parse_command()
 				if job == "get":
-					pipe(StringValue(value=tail), stub.get, logging.info)
+					pair = stub.get(StringValue(value=tail))
+					logging.info(f"{pair.key=}, {pair.value=}")
 				else:
 					k, v = tail
-					pipe(Pair(key=k, value=v), stub.put, logging.info)
+					pair = stub.put( Pair(key=k, value=v))
+					logging.info(pair)
 			except grpc.RpcError as e:
 				logging.warning(e.code())
 				logging.warning(e.details())
