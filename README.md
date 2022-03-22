@@ -7,27 +7,17 @@
 ## Installation
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
 
-python3 server.py &
+docker-compose up --build -d --scale storage_server=4
 
 python3 client.py
+
+./rest_client.sh
 ```
 
 ### Clone Submodule
 ```
 git submodule update --init
-```
-
-## Transcoding Example
-```
-curl -i -X POST http://localhost/v1/storage?key=hello&value=world
-
-curl -i http://localhost/v1/storage/hello
-
-curl -i http://localhost/v1/storage/expect_not_exist
 ```
 
 ## TODO
@@ -36,4 +26,4 @@ curl -i http://localhost/v1/storage/expect_not_exist
 - [ ] CI/CD
 - [ ] Unit test
 - [ ] ORM
-- [ ] Swagger integration
+- [ ] ~~Swagger integration~~ -> Will be integrated into CI/CD

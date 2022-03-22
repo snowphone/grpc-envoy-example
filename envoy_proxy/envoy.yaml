@@ -63,5 +63,35 @@ static_resources:
                 # Reference: https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18030-ce-mac59-2018-03-26
                 #address: host.docker.internal
                 # Address name must be same to docker container name to establish inter-container communication
-                address: storage_server
+                address: grpc-envoy-example_storage_server_1
+                port_value: 50051
+        - endpoint:
+            address:
+              socket_address:
+                # WARNING: "docker.for.mac.localhost" has been deprecated from Docker v18.03.0.
+                # If you're running an older version of Docker, please use "docker.for.mac.localhost" instead.
+                # Reference: https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18030-ce-mac59-2018-03-26
+                #address: host.docker.internal
+                # Address name must be same to docker container name to establish inter-container communication
+                address: grpc-envoy-example_storage_server_2
+                port_value: 50051
+        - endpoint:
+            address:
+              socket_address:
+                # WARNING: "docker.for.mac.localhost" has been deprecated from Docker v18.03.0.
+                # If you're running an older version of Docker, please use "docker.for.mac.localhost" instead.
+                # Reference: https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18030-ce-mac59-2018-03-26
+                #address: host.docker.internal
+                # Address name must be same to docker container name to establish inter-container communication
+                address: grpc-envoy-example_storage_server_3
+                port_value: 50051
+        - endpoint:
+            address:
+              socket_address:
+                # WARNING: "docker.for.mac.localhost" has been deprecated from Docker v18.03.0.
+                # If you're running an older version of Docker, please use "docker.for.mac.localhost" instead.
+                # Reference: https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18030-ce-mac59-2018-03-26
+                #address: host.docker.internal
+                # Address name must be same to docker container name to establish inter-container communication
+                address: grpc-envoy-example_storage_server_4
                 port_value: 50051
