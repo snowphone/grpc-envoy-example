@@ -3,7 +3,6 @@ import logging
 
 from google.protobuf.wrappers_pb2 import StringValue
 import grpc
-from toolz.curried import pipe
 
 from proto.storage_pb2 import Pair
 from proto.storage_pb2_grpc import StorageStub
