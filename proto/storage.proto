@@ -6,8 +6,16 @@ import "google/protobuf/wrappers.proto";
 import "google/api/annotations.proto";
 
 service Storage {
-	rpc put(Pair) returns (google.protobuf.StringValue);
-	rpc get(google.protobuf.StringValue) returns (Pair);
+	rpc put(Pair) returns (google.protobuf.StringValue) {
+		option (google.api.http) = {
+			post: "/v1/storage"
+		};
+	}
+	rpc get(google.protobuf.StringValue) returns (Pair) {
+		option (google.api.http) = {
+			get: "/v1/storage/{value}"
+		};
+	}
 }
 
 message Pair {

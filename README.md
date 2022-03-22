@@ -16,14 +16,24 @@ python3 server.py &
 python3 client.py
 ```
 
-### Clone submodule
+### Clone Submodule
 ```
 git submodule update --init
 ```
 
+## Transcoding Example
+```
+curl -i -X POST http://localhost/v1/storage?key=hello&value=world
+
+curl -i http://localhost/v1/storage/hello
+
+curl -i http://localhost/v1/storage/expect_not_exist
+```
+
 ## TODO
 
-- [ ] Transcode gRPC to REST
+- [x] Transcode gRPC to REST
 - [ ] CI/CD
 - [ ] Unit test
 - [ ] ORM
+- [ ] Swagger integration
