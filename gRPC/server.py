@@ -30,7 +30,7 @@ class Storage(StorageServicer):
 
 	def time(self, request: StringValue,
 	         context: grpc.ServicerContext) -> StringValue:
-		dt = str(datetime.now(timezone.utc)).replace("+00:00", "Z")
+		dt = datetime.utcnow().isoformat() + 'Z'
 		logging.info(dt)
 		return StringValue(value=dt)
 

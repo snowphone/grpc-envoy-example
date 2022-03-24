@@ -17,6 +17,7 @@ service Storage {
 		};
 	}
 	
+	// It returns an ISO 8601 string.
 	rpc time(google.protobuf.StringValue) returns (google.protobuf.StringValue) {
 		option (google.api.http) = {
 			get: "/v1/time"

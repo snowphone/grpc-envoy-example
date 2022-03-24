@@ -6,3 +6,4 @@ rope==0.23.0
 six==1.16.0
 types-protobuf==3.19.12
 yapf==0.32.0
+pytest

@@ -6,14 +6,15 @@ PROTO_DESCRIPTOR=envoy_proxy/storage.desc
 
 install: $(PROTO_TARGET) $(MYPY_STUB_TARGET) $(PROTO_DESCRIPTOR)
 
+up:
+	docker-compose up --build -d --scale storage_server=4
+
 proto/%.py: $(PROTO_SRC)
 	python3 -m grpc_tools.protoc \
 		-I proto \
 		-I proto/googleapis \
 		--include_imports \
 		--descriptor_set_out $(PROTO_DESCRIPTOR) \
-		--python_out proto \
-		--grpc_python_out proto \
 		--python_out gRPC \
 		--grpc_python_out gRPC \
 		proto/storage.proto
@@ -22,8 +23,6 @@ proto/%.pyi: $(PROTO_SRC)
 	python3 -m grpc_tools.protoc \
 		-I proto \
 		-I proto/googleapis \
-		--mypy_out proto \
-		--mypy_grpc_out proto \
 		--mypy_out gRPC \
 		--mypy_grpc_out gRPC \
 		proto/storage.proto
