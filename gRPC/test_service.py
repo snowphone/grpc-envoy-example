@@ -4,6 +4,7 @@ import re
 from google.protobuf.wrappers_pb2 import StringValue
 import grpc
 import pytest
+from repository import Repository
 
 from storage_pb2 import Pair
 from storage_pb2_grpc import StorageStub
@@ -14,7 +15,7 @@ PORT=50052
 @pytest.fixture(scope="session")
 def serv():
 	import server
-	s = server.main(PORT)
+	s = server.main(PORT, "sqlite://")
 	yield s
 	s.stop(0)
 
@@ -37,10 +38,20 @@ def time_stub():
 		 yield TimeStub(channel)
 
 
+def test_repo():
+	repo = Repository("sqlite://")
+	repo.add("abc", "choco")
+	assert repo.get("abc") is not None
+
+def test_repo_update():
+	repo = Repository("sqlite://")
+	repo.add("abc", "choco")
+	repo.add("abc", "chocolate")
+	assert repo.get("abc") == "chocolate"
+
 def test_storage(serv: grpc.Server, storage_stub: StorageStub, md):
 
 	cred = grpc.access_token_call_credentials("secret-token")
-
 	pair = Pair(key="hi", value="bixby")
 
 	ret, call = storage_stub.put.with_call(pair, credentials=cred, metadata=md)

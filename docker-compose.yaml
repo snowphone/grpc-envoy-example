@@ -10,3 +10,10 @@ services:
   storage_server:
     build: gRPC
     restart: unless-stopped
+  database:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+

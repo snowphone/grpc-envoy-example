@@ -7,12 +7,12 @@ from google.protobuf.message import Message
 
 from google.protobuf.wrappers_pb2 import StringValue
 import grpc
+from repository import Repository
 
 from storage_pb2 import Pair
 from storage_pb2_grpc import StorageServicer, add_StorageServicer_to_server
 
 from time_pb2_grpc import TimeServicer, add_TimeServicer_to_server
-
 
 class Time(TimeServicer):
 
@@ -25,21 +25,22 @@ class Time(TimeServicer):
 
 class Storage(StorageServicer):
 
-	def __init__(self) -> None:
-		self._storage: Dict[str, str] = {}
+	def __init__(self, url: str) -> None:
+		self._storage = Repository(url)
 		return
 
 	def put(self, request: Pair, context: grpc.ServicerContext) -> StringValue:
-		self._storage[request.key] = request.value
+		self._storage.add(request.key, request.value)
 		logging.debug(request)
 		return StringValue(value=request.value)
 
 	def get(self, request: StringValue, context: grpc.ServicerContext) -> Pair:
-		if request.value not in self._storage:
+		k = request.value
+		if k not in self._storage:
 			context.abort(grpc.StatusCode.NOT_FOUND,
-			              f"{request.value} not exists")
+			              f"{k} not exists")
 
-		item = Pair(key=request.value, value=self._storage[request.value])
+		item = Pair(key=k, value=self._storage.get(k))
 		logging.debug(item)
 		return item
 
@@ -67,10 +68,10 @@ class OAuthInterceptor(grpc.ServerInterceptor):
 		return continuation(handler_call_details)
 
 
-def main(port=50051):
+def main(port=50051, repo_url: str = "sqlite://"):
 	server = grpc.server(ThreadPoolExecutor(cpu_count()),
 	                     interceptors=[OAuthInterceptor()])
-	add_StorageServicer_to_server(Storage(), server)
+	add_StorageServicer_to_server(Storage(repo_url), server)
 	add_TimeServicer_to_server(Time(), server)
 	server.add_insecure_port(f"[::]:{port}")
 	server.start()
@@ -82,4 +83,5 @@ if __name__ == "__main__":
 	logging.basicConfig(
 	    level=logging.DEBUG,
 	    format='[%(asctime)s - %(name)s - %(levelname)s] %(message)s')
-	main().wait_for_termination()
+	url = "postgresql://user:password@database:5432/db"
+	main(repo_url=url).wait_for_termination()
