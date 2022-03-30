@@ -16,7 +16,7 @@ from google.protobuf import wrappers_pb2 as google_dot_protobuf_dot_wrappers__pb
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rstorage.proto\x12\x07storage\x1a\x1egoogle/protobuf/wrappers.proto\x1a\x1cgoogle/api/annotations.proto\"\"\n\x04Pair\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t2\xfc\x01\n\x07Storage\x12G\n\x03put\x12\r.storage.Pair\x1a\x1c.google.protobuf.StringValue\"\x13\x82\xd3\xe4\x93\x02\r\"\x0b/v1/storage\x12O\n\x03get\x12\x1c.google.protobuf.StringValue\x1a\r.storage.Pair\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/storage/{value}\x12W\n\x04time\x12\x1c.google.protobuf.StringValue\x1a\x1c.google.protobuf.StringValue\"\x13\x82\xd3\xe4\x93\x02\r\x12\x08/v1/time:\x01*b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rstorage.proto\x12\x07storage\x1a\x1egoogle/protobuf/wrappers.proto\x1a\x1cgoogle/api/annotations.proto\"\"\n\x04Pair\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t2\xa3\x01\n\x07Storage\x12G\n\x03put\x12\r.storage.Pair\x1a\x1c.google.protobuf.StringValue\"\x13\x82\xd3\xe4\x93\x02\r\"\x0b/v1/storage\x12O\n\x03get\x12\x1c.google.protobuf.StringValue\x1a\r.storage.Pair\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/storage/{value}b\x06proto3')
 
 
 
@@ -36,10 +36,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _STORAGE.methods_by_name['put']._serialized_options = b'\202\323\344\223\002\r\"\013/v1/storage'
   _STORAGE.methods_by_name['get']._options = None
   _STORAGE.methods_by_name['get']._serialized_options = b'\202\323\344\223\002\025\022\023/v1/storage/{value}'
-  _STORAGE.methods_by_name['time']._options = None
-  _STORAGE.methods_by_name['time']._serialized_options = b'\202\323\344\223\002\r\022\010/v1/time:\001*'
   _PAIR._serialized_start=88
   _PAIR._serialized_end=122
   _STORAGE._serialized_start=125
-  _STORAGE._serialized_end=377
+  _STORAGE._serialized_end=288
 # @@protoc_insertion_point(module_scope)

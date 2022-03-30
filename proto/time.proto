@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package time;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+service Time {
+	// It returns an ISO 8601 string.
+	rpc now(google.protobuf.StringValue) returns (google.protobuf.StringValue) {
+		option (google.api.http) = {
+			get: "/v1/time/now"
+			body: "*"
+		};
+	}
+}

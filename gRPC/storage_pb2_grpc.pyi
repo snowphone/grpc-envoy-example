@@ -17,10 +17,6 @@ class StorageStub:
         google.protobuf.wrappers_pb2.StringValue,
         storage_pb2.Pair]
 
-    time: grpc.UnaryUnaryMultiCallable[
-        google.protobuf.wrappers_pb2.StringValue,
-        google.protobuf.wrappers_pb2.StringValue]
-
 
 class StorageServicer(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -34,12 +30,6 @@ class StorageServicer(metaclass=abc.ABCMeta):
         request: google.protobuf.wrappers_pb2.StringValue,
         context: grpc.ServicerContext,
     ) -> storage_pb2.Pair: ...
-
-    @abc.abstractmethod
-    def time(self,
-        request: google.protobuf.wrappers_pb2.StringValue,
-        context: grpc.ServicerContext,
-    ) -> google.protobuf.wrappers_pb2.StringValue: ...
 
 
 def add_StorageServicer_to_server(servicer: StorageServicer, server: grpc.Server) -> None: ...

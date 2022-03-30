@@ -25,14 +25,16 @@ static_resources:
               # Reference: https://envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_json_transcoder_filter#route-configs-for-transcoded-requests
               - match: {prefix: "/storage.Storage"}
                 route: {cluster: grpc, timeout: 60s}
+              - match: {prefix: "/time.Time"}
+                route: {cluster: grpc, timeout: 60s}
           http_filters:
 
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
               # Need to edit two lines below
-              proto_descriptor: "/etc/envoy/storage.desc"
-              services: ["storage.Storage"]
+              proto_descriptor: "/etc/envoy/services.desc"
+              services: ["storage.Storage", "time.Time"]
               print_options:
                 add_whitespace: true
                 always_print_primitive_fields: true

@@ -25,11 +25,6 @@ class StorageStub(object):
                 request_serializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.SerializeToString,
                 response_deserializer=storage__pb2.Pair.FromString,
                 )
-        self.time = channel.unary_unary(
-                '/storage.Storage/time',
-                request_serializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.SerializeToString,
-                response_deserializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.FromString,
-                )
 
 
 class StorageServicer(object):
@@ -47,12 +42,6 @@ class StorageServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def time(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_StorageServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -65,11 +54,6 @@ def add_StorageServicer_to_server(servicer, server):
                     servicer.get,
                     request_deserializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.FromString,
                     response_serializer=storage__pb2.Pair.SerializeToString,
-            ),
-            'time': grpc.unary_unary_rpc_method_handler(
-                    servicer.time,
-                    request_deserializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.FromString,
-                    response_serializer=google_dot_protobuf_dot_wrappers__pb2.StringValue.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -112,22 +96,5 @@ class Storage(object):
         return grpc.experimental.unary_unary(request, target, '/storage.Storage/get',
             google_dot_protobuf_dot_wrappers__pb2.StringValue.SerializeToString,
             storage__pb2.Pair.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def time(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/storage.Storage/time',
-            google_dot_protobuf_dot_wrappers__pb2.StringValue.SerializeToString,
-            google_dot_protobuf_dot_wrappers__pb2.StringValue.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

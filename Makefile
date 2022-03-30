@@ -1,31 +1,47 @@
+PROTO_SRC_BASE=storage.proto time.proto
+PROTO_SRC=$(addprefix proto/,$(PROTO_SRC_BASE))
+PROTO_TARGET=$(addprefix gRPC/, $(PROTO_SRC_BASE:.proto=_pb2.py) $(PROTO_SRC_BASE:.proto=_pb2_grpc.py))
+MYPY_STUB_TARGET=$(PROTO_TARGET:.py=.pyi)
+PROTO_DESCRIPTOR=envoy_proxy/services.desc
 
-PROTO_SRC=proto/storage.proto
-PROTO_TARGET=proto/storage_pb2.py proto/storage_pb2_grpc.py gRPC/storage_pb2.py gRPC/storage_pb2_grpc.py
-MYPY_STUB_TARGET=proto/storage_pb2.pyi proto/storage_pb2_grpc.pyi
-PROTO_DESCRIPTOR=envoy_proxy/storage.desc
+CMD=python3 -m grpc_tools.protoc
+FLAGS=-I proto -I proto/googleapis
 
 install: $(PROTO_TARGET) $(MYPY_STUB_TARGET) $(PROTO_DESCRIPTOR)
 
 up:
 	docker-compose up --build -d --scale storage_server=4
 
-proto/%.py: $(PROTO_SRC)
-	python3 -m grpc_tools.protoc \
-		-I proto \
-		-I proto/googleapis \
-		--include_imports \
-		--descriptor_set_out $(PROTO_DESCRIPTOR) \
-		--python_out gRPC \
+gRPC/%_pb2_grpc.py: proto/%.proto
+	$(CMD) \
+		$(FLAGS) \
 		--grpc_python_out gRPC \
-		proto/storage.proto
+		$^
 
-proto/%.pyi: $(PROTO_SRC)
-	python3 -m grpc_tools.protoc \
-		-I proto \
-		-I proto/googleapis \
-		--mypy_out gRPC \
+gRPC/%_pb2_grpc.pyi: proto/%.proto
+	$(CMD) \
+		$(FLAGS) \
 		--mypy_grpc_out gRPC \
-		proto/storage.proto
+		$^
+
+gRPC/%_pb2.py: proto/%.proto
+	$(CMD) \
+		$(FLAGS) \
+		--python_out gRPC \
+		$^
+
+gRPC/%_pb2.pyi: proto/%.proto
+	$(CMD) \
+		$(FLAGS) \
+		--mypy_out gRPC \
+		$^
+
+$(PROTO_DESCRIPTOR): $(PROTO_SRC)
+	$(CMD) \
+		$(FLAGS) \
+		--include_imports \
+		--descriptor_set_out $@ \
+		$^
 
 clean:
-	$(RM) $(PROTO_TARGET) $(MYPY_STUB_TARGET)
+	$(RM) $(PROTO_TARGET) $(MYPY_STUB_TARGET) $(PROTO_DESCRIPTOR)
