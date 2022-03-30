@@ -19,6 +19,7 @@ class Time(TimeServicer):
 	def now(self, request: StringValue,
 	        context: grpc.ServicerContext) -> StringValue:
 		dt = datetime.utcnow().isoformat() + 'Z'
+		logging.debug(dt)
 		return StringValue(value=dt)
 
 
@@ -30,7 +31,7 @@ class Storage(StorageServicer):
 
 	def put(self, request: Pair, context: grpc.ServicerContext) -> StringValue:
 		self._storage[request.key] = request.value
-		logging.info(request)
+		logging.debug(request)
 		return StringValue(value=request.value)
 
 	def get(self, request: StringValue, context: grpc.ServicerContext) -> Pair:
@@ -38,7 +39,9 @@ class Storage(StorageServicer):
 			context.abort(grpc.StatusCode.NOT_FOUND,
 			              f"{request.value} not exists")
 
-		return Pair(key=request.value, value=self._storage[request.value])
+		item = Pair(key=request.value, value=self._storage[request.value])
+		logging.debug(item)
+		return item
 
 
 class OAuthInterceptor(grpc.ServerInterceptor):
@@ -77,6 +80,6 @@ def main(port=50051):
 
 if __name__ == "__main__":
 	logging.basicConfig(
-	    level=logging.INFO,
+	    level=logging.DEBUG,
 	    format='[%(asctime)s - %(name)s - %(levelname)s] %(message)s')
 	main().wait_for_termination()
